@@ -19,16 +19,15 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mSelectedOptionPosition: Int = 0
 
 
+    private var progressBar: ProgressBar? = null
+    private var tvProgress: TextView? = null
+    private var tvQuestion: TextView? = null
+    private var ivImage: ImageView? = null
 
-    private var progressBar : ProgressBar? = null
-    private var tvProgress : TextView? = null
-    private var tvQuestion : TextView? = null
-    private var ivImage : ImageView? = null
-
-    private var tvOptionOne : TextView? = null
-    private var tvOptionTwo : TextView? = null
-    private var tvOptionThree : TextView? = null
-    private var tvOptionFour : TextView? = null
+    private var tvOptionOne: TextView? = null
+    private var tvOptionTwo: TextView? = null
+    private var tvOptionThree: TextView? = null
+    private var tvOptionFour: TextView? = null
     private var btnSubmit: Button? = null
 
 
@@ -78,29 +77,29 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         tvOptionThree?.text = question.optionThree
         tvOptionFour?.text = question.optionFour
 
-        if (mCurrentPosition == mQuestionsList!!.size){
+        if (mCurrentPosition == mQuestionsList!!.size) {
             btnSubmit?.text = "FiNISH"
         } else {
             btnSubmit?.text = "SUBMIT"
         }
     }
 
-    private fun defaultOptionsView(){
+    private fun defaultOptionsView() {
         val options = ArrayList<TextView>()
-        tvOptionOne?.let{
+        tvOptionOne?.let {
             options.add(0, it)
         }
-        tvOptionTwo?.let{
+        tvOptionTwo?.let {
             options.add(1, it)
         }
-        tvOptionThree?.let{
+        tvOptionThree?.let {
             options.add(2, it)
         }
-        tvOptionFour?.let{
+        tvOptionFour?.let {
             options.add(3, it)
         }
 
-        for(option in options){
+        for (option in options) {
             option.setTextColor(Color.parseColor("#7A8089"))
             option.typeface = Typeface.DEFAULT
             option.background = ContextCompat.getDrawable(
@@ -110,7 +109,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun selectedOptionView(tv:TextView, selectedOptionNum: Int){
+    private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
         defaultOptionsView()
 
         mSelectedOptionPosition = selectedOptionNum
@@ -124,45 +123,56 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        when(view?.id){
+        when (view?.id) {
             R.id.tv_option_one -> {
-                tvOptionOne?.let{
+                tvOptionOne?.let {
                     selectedOptionView(it, 1)
                 }
             }
 
             R.id.tv_option_two -> {
-                tvOptionTwo?.let{
+                tvOptionTwo?.let {
                     selectedOptionView(it, 2)
                 }
             }
 
             R.id.tv_option_three -> {
-                tvOptionThree?.let{
+                tvOptionThree?.let {
                     selectedOptionView(it, 3)
                 }
             }
 
             R.id.tv_option_four -> {
-                tvOptionFour?.let{
+                tvOptionFour?.let {
                     selectedOptionView(it, 4)
                 }
             }
 
             R.id.btn_submit -> {
-                if (mSelectedOptionPosition == 0){
+
+                // MEMO: とらえず、選択されたボタンのクリアが必要かも。。
+                listOf(tvOptionOne, tvOptionTwo, tvOptionThree, tvOptionFour).forEach {
+                    it?.background = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.default_option_border_bg
+                    )
+                }
+
+                if (mSelectedOptionPosition == 0) {
                     mCurrentPosition++
 
-                    when{
+                    when {
                         mCurrentPosition <= mQuestionsList!!.size -> {
                             setQuestions()
                         }
                     }
-                }else {
+                } else {
                     val question = mQuestionsList?.get(mCurrentPosition - 1)
 
-                    if(question!!.correctAnswer != mSelectedOptionPosition){
+                    if (question!!.correctAnswer != mSelectedOptionPosition) {
                         answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+                        // MEMO: ここでreturnしないと、正解した時の処理が走る。。
+                        return
                     }
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
                 }
@@ -170,8 +180,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun answerView(answer: Int, drawableView : Int){
-        when(answer){
+    private fun answerView(answer: Int, drawableView: Int) {
+
+        when (answer) {
             1 -> {
                 tvOptionOne?.background = ContextCompat.getDrawable(
                     this,
@@ -180,21 +191,21 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             2 -> {
-                tvOptionOne?.background = ContextCompat.getDrawable(
+                tvOptionTwo?.background = ContextCompat.getDrawable(
                     this,
                     drawableView
                 )
             }
 
             3 -> {
-                tvOptionOne?.background = ContextCompat.getDrawable(
+                tvOptionThree?.background = ContextCompat.getDrawable(
                     this,
                     drawableView
                 )
             }
 
             4 -> {
-                tvOptionOne?.background = ContextCompat.getDrawable(
+                tvOptionFour?.background = ContextCompat.getDrawable(
                     this,
                     drawableView
                 )
