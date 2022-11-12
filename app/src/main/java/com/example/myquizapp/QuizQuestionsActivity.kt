@@ -115,6 +115,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         mSelectedOptionPosition = selectedOptionNum
 
+
         tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(
@@ -150,6 +151,14 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
+                // MEMO: とらえず、選択されたボタンのクリアが必要かも。。
+//                listOf(tvOptionOne, tvOptionTwo, tvOptionThree, tvOptionFour).forEach {
+//                    it?.background = ContextCompat.getDrawable(
+//                        this,
+//                        R.drawable.default_option_border_bg
+//                    )
+//                }
+
                 if (mSelectedOptionPosition == 0){
                     mCurrentPosition++
 
@@ -160,9 +169,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }else {
                     val question = mQuestionsList?.get(mCurrentPosition - 1)
-
                     if(question!!.correctAnswer != mSelectedOptionPosition){
                         answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+//                        return
                     }
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
                 }
@@ -180,22 +189,22 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             2 -> {
-                tvOptionOne?.background = ContextCompat.getDrawable(
+                tvOptionTwo?.background = ContextCompat.getDrawable(
                     this,
                     drawableView
                 )
             }
 
             3 -> {
-                tvOptionOne?.background = ContextCompat.getDrawable(
+                tvOptionThree?.background = ContextCompat.getDrawable(
                     this,
                     drawableView
                 )
             }
 
             4 -> {
-                tvOptionOne?.background = ContextCompat.getDrawable(
-                    this,
+                tvOptionFour?.background = ContextCompat.getDrawable(
+                    this@QuizQuestionsActivity,
                     drawableView
                 )
             }
