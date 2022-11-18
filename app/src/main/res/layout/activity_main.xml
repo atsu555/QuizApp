@@ -76,6 +76,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <Button
                 android:id="@+id/btn_start"
                 android:layout_width="match_parent"
@@ -85,7 +86,6 @@
                 android:text="Start"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
-
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
